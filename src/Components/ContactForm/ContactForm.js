@@ -1,0 +1,79 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import action from '../../redux/actions';
+
+class ContactForm extends Component {
+  state = {
+    name: '',
+    number: '',
+  };
+
+  onChange = evt =>
+    this.setState({ [evt.currentTarget.name]: evt.currentTarget.value });
+
+  onSubmit = evt => {
+    evt.preventDefault();
+    const { name } = this.state;
+    const { contacts } = this.props;
+
+    // if (contacts.find(contact => contact.name === name)) {
+    //   this.setState({ name: '', number: '' });
+    //   return alert(`${name} is already in contacts`);
+    // }
+
+    this.props.onSubmit(this.state);
+    this.setState({ name: '', number: '' });
+  };
+
+  // checkUniq = (contacts, name) => {
+  //   const { onSubmit } = this.props
+  //   return contacts.some((i) => i.name === name) ? alert(`${name} is already in contacts`) : onSubmit({ ...this.state })
+  // }
+
+  render() {
+    return (
+      <form onSubmit={this.onSubmit}>
+        <label>
+          Name
+          <input
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+            required
+            value={this.state.name}
+            onChange={this.onChange}
+          />
+        </label>
+        <label>
+          Number
+          <input
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
+            required
+            value={this.state.number}
+            onChange={this.onChange}
+          />
+        </label>
+        <button type="submit">add contact</button>
+      </form>
+    );
+  }
+}
+
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  items: state.items,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSubmit: text => dispatch(action.Add(text)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
