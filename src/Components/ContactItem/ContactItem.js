@@ -5,7 +5,7 @@ const ContactItem = ({ contacts, onDelete }) =>
   contacts &&
   contacts.map(({ id, name, number }) => (
     <li key={id}>
-      <button onClick={() => onDelete(id)} type="button">
+      <button onClick={() => Delete(id)} type="button">
         delete
       </button>
       {name}: {number}
@@ -16,7 +16,7 @@ ContactItem.defaultProps = {
 };
 
 ContactItem.propTypes = {
-  onDelete: PropTypes.func,
+  Delete: PropTypes.func,
   contacts: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string.isRequired)),
 };
 
