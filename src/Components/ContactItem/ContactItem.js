@@ -1,23 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const ContactItem = ({ contacts, Delete }) =>
-  contacts &&
-  contacts.map(({ id, name, number }) => (
+import action from '../../redux/actions';
+
+const ContactItem = ({ filtered, onDelete }) =>
+  filtered.map(({ id, name, number }) => (
     <li key={id}>
-      <button onClick={() => Delete(id)} type="button">
+      <button onClick={() => onDelete(id)} type="button">
         delete
       </button>
       {name}: {number}
     </li>
   ));
+
+const onFilterContacts = (contacts, filter) => {
+  const normalizeFilter = filter.toLowerCase();
+
+  return contacts.filter(({ name }) =>
+    name.toLowerCase().includes(normalizeFilter),
+  );
+};
+
+const mapStateToProps = state => ({
+  filtered: onFilterContacts(state.contacts, state.filter),
+});
+
+const mapDispatchToProps = dispatch => ({
+  onDelete: id => dispatch(action.Delete(id)),
+});
 ContactItem.defaultProps = {
-  contacts: [],
+  filtered: [],
 };
 
 ContactItem.propTypes = {
-  Delete: PropTypes.func,
-  contacts: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string.isRequired)),
+  onDelete: PropTypes.func.isRequired,
+  filtered: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string.isRequired)),
 };
 
-export default ContactItem;
+export default connect(mapStateToProps, mapDispatchToProps)(ContactItem);

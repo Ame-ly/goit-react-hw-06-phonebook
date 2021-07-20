@@ -14,22 +14,10 @@ class ContactForm extends Component {
 
   onSubmit = evt => {
     evt.preventDefault();
-    const { name } = this.state;
-    const { contacts } = this.props;
-
-    // if (contacts.find(contact => contact.name === name)) {
-    //   this.setState({ name: '', number: '' });
-    //   return alert(`${name} is already in contacts`);
-    // }
 
     this.props.onSubmit(this.state);
     this.setState({ name: '', number: '' });
   };
-
-  // checkUniq = (contacts, name) => {
-  //   const { onSubmit } = this.props
-  //   return contacts.some((i) => i.name === name) ? alert(`${name} is already in contacts`) : onSubmit({ ...this.state })
-  // }
 
   render() {
     return (

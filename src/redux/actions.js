@@ -9,8 +9,10 @@ const Delete = createAction('contacts/Delete');
 
 const Filter = createAction('contacts/Filter');
 
-export default {
+const action = {
     Add,
     Delete,
     Filter,
 };
+
+export default action;
