@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ContactItem = ({ contacts, onDelete }) =>
+const ContactItem = ({ contacts, Delete }) =>
   contacts &&
   contacts.map(({ id, name, number }) => (
     <li key={id}>
